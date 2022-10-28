@@ -1,7 +1,4 @@
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
@@ -10,6 +7,7 @@ import java.util.Scanner;
 public class Urinals {
     final private static Scanner inputScanner = new Scanner(System.in);
     public static String filename = "urinals.dat";
+    public static String defaultResultFileName = "rule";
 
     public static void showMenu(){
         System.out.println("\nChoose from the below options : \n1. Input from User \n2. Input from the file \n3. Exit the program");
@@ -32,10 +30,34 @@ public class Urinals {
     }
 
     public static boolean validateString(String inputString){
+        if(inputString.length() ==0 || inputString.length() >20){
+            return false;
+        }
+        int index = 0;
         for(char character : inputString.toCharArray()){
             if(character != '0' && character != '1'){
                 return false;
             }
+            else{
+                if(inputString.charAt(index) == '1'){
+                    if(index == 0 && index != inputString.length() - 1){
+                        if(inputString.charAt(index + 1) == '1'){
+                            return false;
+                        }
+                    }
+                    else if(index == inputString.length() - 1){
+                        if(index!= 0 && inputString.charAt(index - 1) == '1'){
+                            return false;
+                        }
+                    }
+                    else{
+                        if(inputString.charAt(index + 1) == '1' || inputString.charAt(index - 1) == '1'){
+                            return false;
+                        }
+                    }
+                }
+            }
+            index++;
         }
         return true;
     }
@@ -84,6 +106,7 @@ public class Urinals {
                 listOfUrinalStrings.add(line);
                 line = bufferedReader.readLine();
             }
+            bufferedReader.close();
         } catch (FileNotFoundException fileNotFoundException){
             System.out.println("File does not exist");
         } catch (IOException ioException) {
@@ -92,26 +115,69 @@ public class Urinals {
         }
         return  listOfUrinalStrings;
     }
+
+    public static String getRecentFileName(){
+        int counter = 1;
+        File file = new File(defaultResultFileName + ".txt");
+        String newFileName = defaultResultFileName;
+        while(file.exists()) {
+            newFileName = defaultResultFileName;
+            newFileName = "%s%d".formatted(newFileName, counter++);
+            file = new File(newFileName + ".txt");
+        }
+        return newFileName + ".txt";
+    }
+
+    public static void writeToFile(List<Integer> listOfLines){
+        try {
+            FileWriter writer = new FileWriter(defaultResultFileName);
+            for(Integer line: listOfLines) {
+                writer.write(line + System.lineSeparator());
+            }
+            writer.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
     public static void main(String[] args){
-        while(true) {
             showMenu();
             int userChoice = getChoice();
+            boolean isStringValid;
             switch (userChoice){
                 case -1:
                     break;
                 case 1:
                     String inputString = takeUrinalString();
-                    boolean isStringValid = validateString(inputString);
+                    isStringValid = validateString(inputString);
                     if(isStringValid){
                         int totalUrinals = countUrinals(inputString);
                         System.out.println("The total free urinals are : " + totalUrinals);
                     }
+                    else{
+                        System.out.println("The string is not valid!!");
+                    }
+                    break;
                 case 2:
                     List<String> input = getInputFromFile(filename);
+                    List<Integer> listOfFreeUrinals = new ArrayList<>();
+                    for(String string : input){
+                        isStringValid = validateString(string);
+                        if(isStringValid){
+                            int totalFreeUrinals = countUrinals(string);
+                            listOfFreeUrinals.add(totalFreeUrinals);
+                        }
+                        else{
+                            listOfFreeUrinals.add(-1);
+                        }
+                    }
+                    defaultResultFileName = getRecentFileName();
+                    writeToFile(listOfFreeUrinals);
+                    break;
                 case 3:
                     System.exit(0);
                     break;
+                default:
+                    break;
             }
-        }
     }
 }
