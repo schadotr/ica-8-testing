@@ -28,43 +28,48 @@ class UrinalsTest {
     }
 
     @Test
-    void testInputFromUserInput(){
+    void testInputFromUserInput() {
         byteArrayInputStream = new ByteArrayInputStream("1".getBytes());
         System.setIn(byteArrayInputStream);
         Assertions.assertEquals(1, Urinals.getChoice());
     }
 
     @Test
-    void testInputFromFileInput(){
+    void testInputFromFileInput() {
         byteArrayInputStream = new ByteArrayInputStream("2".getBytes());
         System.setIn(byteArrayInputStream);
         Assertions.assertEquals(2, Urinals.getChoice());
     }
 
     @Test
-    void testExitInput(){
+    void testExitInput() {
         byteArrayInputStream = new ByteArrayInputStream("3".getBytes());
         System.setIn(byteArrayInputStream);
         Assertions.assertEquals(3, Urinals.getChoice());
     }
 
     @Test
-    void testLetterString(){
+    void testLetterString() {
         Assertions.assertEquals(false, Urinals.validateString("abcd"));
     }
 
     @Test
-    void testNumberStringExceptExpected(){
+    void testNumberStringExceptExpected() {
         Assertions.assertEquals(false, Urinals.validateString("0102"));
     }
 
     @Test
-    void validateValidUrinalCount(){
+    void testValidateValidUrinalCount() {
         Assertions.assertEquals(0, Urinals.countUrinals("1001"));
     }
 
     @Test
-    void countOneUrinal(){
+    void tesrCountOneUrinal() {
         Assertions.assertEquals(1, Urinals.countUrinals("0"));
+    }
+
+    @Test
+    void testFileNotFound() {
+        Assertions.assertEquals(null, Urinals.getInputFromFile("0.txt"));
     }
 }
