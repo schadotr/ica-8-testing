@@ -60,6 +60,11 @@ class UrinalsTest {
     }
 
     @Test
+    void testInvalidStringLength(){
+        Assertions.assertEquals(false, Urinals.validateString("0000000000000000000000"));
+    }
+
+    @Test
     void testValidateValidUrinalCount() {
         Assertions.assertEquals(0, Urinals.countUrinals("1001"));
     }
