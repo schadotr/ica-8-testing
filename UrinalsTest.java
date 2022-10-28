@@ -57,4 +57,14 @@ class UrinalsTest {
     void testNumberStringExceptExpected(){
         Assertions.assertEquals(false, Urinals.validateString("0102"));
     }
+
+    @Test
+    void validateValidUrinalCount(){
+        Assertions.assertEquals(0, Urinals.countUrinals("1001"));
+    }
+
+    @Test
+    void countOneUrinal(){
+        Assertions.assertEquals(1, Urinals.countUrinals("0"));
+    }
 }

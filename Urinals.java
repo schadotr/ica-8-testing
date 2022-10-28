@@ -33,6 +33,35 @@ public class Urinals {
         return true;
     }
 
+    public static int countUrinals(String inputString){
+        int total = 0;
+        char[] arrayOfUrinals = inputString.toCharArray();
+
+        for(int index = 0; index < arrayOfUrinals.length; index++){
+            if(arrayOfUrinals[index] == '0'){
+                if(index == 0){
+                    if(arrayOfUrinals[index + 1] == '0'){
+                        arrayOfUrinals[index] = '1';
+                        total++;
+                    }
+                }
+                else if(index == arrayOfUrinals.length - 1){
+                    if(arrayOfUrinals[index - 1] == '0'){
+                        arrayOfUrinals[index] = '1';
+                        total++;
+                    }
+                }
+                else{
+                    if(arrayOfUrinals[index - 1] == '0' && arrayOfUrinals[index + 1] == '0'){
+                        arrayOfUrinals[index] = '1';
+                        total++;
+                    }
+                }
+            }
+        }
+        return total;
+    }
+
     public static void main(String[] args){
         while(true) {
             showMenu();
@@ -44,7 +73,7 @@ public class Urinals {
                     String inputString = takeUrinalString();
                     boolean isStringValid = validateString(inputString);
                     if(isStringValid){
-
+                        int totalUrinals = countUrinals(inputString);
                     }
                 case 3:
                     System.exit(0);
