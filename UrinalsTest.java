@@ -52,4 +52,9 @@ class UrinalsTest {
     void testLetterString(){
         Assertions.assertEquals(false, Urinals.validateString("abcd"));
     }
+
+    @Test
+    void testNumberStringExceptExpected(){
+        Assertions.assertEquals(false, Urinals.validateString("0102"));
+    }
 }

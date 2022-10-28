@@ -25,8 +25,12 @@ public class Urinals {
     }
 
     public static boolean validateString(String inputString){
-        boolean isValid = true;
-        return isValid;
+        for(char character : inputString.toCharArray()){
+            if(character != '0' || character != '1'){
+                return false;
+            }
+        }
+        return true;
     }
 
     public static void main(String[] args){
