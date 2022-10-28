@@ -1,3 +1,4 @@
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Urinals {
@@ -8,8 +9,15 @@ public class Urinals {
     }
 
     public static int getChoice(){
-        int userChoice = inputScanner.nextInt();
-        return userChoice;
+        int userChoice;
+        try {
+            userChoice = inputScanner.nextInt();
+            return userChoice;
+        }
+        catch (InputMismatchException inputMismatchException) {
+            System.out.println("Wrong Input Please enter again !!");
+            return -1;
+        }
     }
 
     public static void main(String[] args){

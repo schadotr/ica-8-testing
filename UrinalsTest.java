@@ -28,6 +28,6 @@ class UrinalsTest {
     @Test
     void testUserInput() {
         System.out.println("====== Checks if the function covers an input which isn't expected =======");
-        Assertions.assertEquals(1, Urinals.getChoice());
+        Assertions.assertEquals(-1, Urinals.getChoice());
     }
 }
