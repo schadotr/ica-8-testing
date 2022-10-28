@@ -20,10 +20,32 @@ public class Urinals {
         }
     }
 
+    public static String takeUrinalString(){
+        return inputScanner.next();
+    }
+
+    public static boolean validateString(String inputString){
+        boolean isValid = true;
+        return isValid;
+    }
+
     public static void main(String[] args){
         while(true) {
             showMenu();
-            getChoice();
+            int userChoice = getChoice();
+            switch (userChoice){
+                case -1:
+                    break;
+                case 1:
+                    String inputString = takeUrinalString();
+                    boolean isStringValid = validateString(inputString);
+                    if(isStringValid){
+
+                    }
+                case 3:
+                    System.exit(0);
+                    break;
+            }
         }
     }
 }

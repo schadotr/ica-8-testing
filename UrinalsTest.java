@@ -1,33 +1,55 @@
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.io.PrintStream;
-import java.util.Scanner;
 
 class UrinalsTest {
-    InputStream sysInBackup;
-    ByteArrayInputStream in;
+    InputStream inputStream;
+    ByteArrayInputStream byteArrayInputStream;
 
     @BeforeEach
     void setUp() {
-        sysInBackup = System.in;
-        in = new ByteArrayInputStream("False String".getBytes());
-        System.setIn(in);
+        inputStream = System.in;
     }
 
     @AfterEach
     void tearDown() {
-        System.setIn(sysInBackup);
+        System.setIn(inputStream);
     }
 
     @Test
-    void testUserInput() {
-        System.out.println("====== Checks if the function covers an input which isn't expected =======");
+    void testInvalidUserInput() {
+        byteArrayInputStream = new ByteArrayInputStream("False String".getBytes());
+        System.setIn(byteArrayInputStream);
         Assertions.assertEquals(-1, Urinals.getChoice());
+    }
+
+    @Test
+    void testInputFromUserInput(){
+        byteArrayInputStream = new ByteArrayInputStream("1".getBytes());
+        System.setIn(byteArrayInputStream);
+        Assertions.assertEquals(1, Urinals.getChoice());
+    }
+
+    @Test
+    void testInputFromFileInput(){
+        byteArrayInputStream = new ByteArrayInputStream("2".getBytes());
+        System.setIn(byteArrayInputStream);
+        Assertions.assertEquals(2, Urinals.getChoice());
+    }
+
+    @Test
+    void testExitInput(){
+        byteArrayInputStream = new ByteArrayInputStream("3".getBytes());
+        System.setIn(byteArrayInputStream);
+        Assertions.assertEquals(3, Urinals.getChoice());
+    }
+
+    @Test
+    void testLetterString(){
+        Assertions.assertEquals(false, Urinals.validateString("abcd"));
     }
 }
