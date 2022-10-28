@@ -140,44 +140,38 @@ public class Urinals {
         }
     }
     public static void main(String[] args){
-            showMenu();
-            int userChoice = getChoice();
-            boolean isStringValid;
-            switch (userChoice){
-                case -1:
-                    break;
-                case 1:
-                    String inputString = takeUrinalString();
-                    isStringValid = validateString(inputString);
-                    if(isStringValid){
-                        int totalUrinals = countUrinals(inputString);
-                        System.out.println("The total free urinals are : " + totalUrinals);
-                    }
-                    else{
-                        System.out.println("The string is not valid!!");
-                    }
-                    break;
-                case 2:
-                    List<String> input = getInputFromFile(filename);
-                    List<Integer> listOfFreeUrinals = new ArrayList<>();
-                    for(String string : input){
-                        isStringValid = validateString(string);
-                        if(isStringValid){
-                            int totalFreeUrinals = countUrinals(string);
-                            listOfFreeUrinals.add(totalFreeUrinals);
-                        }
-                        else{
-                            listOfFreeUrinals.add(-1);
-                        }
-                    }
-                    defaultResultFileName = getRecentFileName();
-                    writeToFile(listOfFreeUrinals);
-                    break;
-                case 3:
-                    System.exit(0);
-                    break;
-                default:
-                    break;
+        showMenu();
+        int userChoice = getChoice();
+        boolean isStringValid;
+        switch (userChoice) {
+            case 1 -> {
+                String inputString = takeUrinalString();
+                isStringValid = validateString(inputString);
+                if (isStringValid) {
+                    int totalUrinals = countUrinals(inputString);
+                    System.out.println("The total free urinals are : " + totalUrinals);
+                } else {
+                    System.out.println("The string is not valid!!");
+                }
             }
+            case 2 -> {
+                List<String> input = getInputFromFile(filename);
+                List<Integer> listOfFreeUrinals = new ArrayList<>();
+                for (String string : input) {
+                    isStringValid = validateString(string);
+                    if (isStringValid) {
+                        int totalFreeUrinals = countUrinals(string);
+                        listOfFreeUrinals.add(totalFreeUrinals);
+                    } else {
+                        listOfFreeUrinals.add(-1);
+                    }
+                }
+                defaultResultFileName = getRecentFileName();
+                writeToFile(listOfFreeUrinals);
+            }
+            case 3 -> System.exit(0);
+            default -> {
+            }
+        }
     }
 }
