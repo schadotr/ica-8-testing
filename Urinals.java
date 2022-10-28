@@ -5,14 +5,16 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Urinals {
-    final private static Scanner inputScanner = new Scanner(System.in);
-    public static String filename = "urinals.dat";
-    public static String defaultResultFileName = "rule";
+    final private static Scanner inputScanner = new Scanner(System.in); // Scans the user input
+    public static String filename = "urinals.dat"; // Filename from which we will read the input
+    public static String defaultResultFileName = "rule"; // Default file name rule.txt where we will write first
 
+    // Shows the Menu to the user
     public static void showMenu(){
         System.out.println("\nChoose from the below options : \n1. Input from User \n2. Input from the file \n3. Exit the program");
     }
 
+    // Gets the choice from the user
     public static int getChoice(){
         int userChoice;
         try {
@@ -25,21 +27,23 @@ public class Urinals {
         }
     }
 
+    // Scans the Urinal String Sequence from the user
     public static String takeUrinalString(){
         return inputScanner.next();
     }
 
+    // Validate if a given Urinal String is valid or not
     public static boolean validateString(String inputString){
-        if(inputString.length() ==0 || inputString.length() >20){
+        if(inputString.length() ==0 || inputString.length() >20){ // Checks the length is in the given range
             return false;
         }
         int index = 0;
         for(char character : inputString.toCharArray()){
-            if(character != '0' && character != '1'){
+            if(character != '0' && character != '1'){ // Checks if anything other than 0 or 1
                 return false;
             }
             else{
-                if(inputString.charAt(index) == '1'){
+                if(inputString.charAt(index) == '1'){ // Checks if 1 then the preceding or succeeding index does not count 1
                     if(index == 0 && index != inputString.length() - 1){
                         if(inputString.charAt(index + 1) == '1'){
                             return false;
@@ -62,14 +66,15 @@ public class Urinals {
         return true;
     }
 
+    // Counts the free urinals available
     public static int countUrinals(String inputString){
-        if(!validateString(inputString)){
+        if(!validateString(inputString)){ // Double checking is someone by-passes the validate function
             return -1;
         }
         int total = 0;
         char[] arrayOfUrinals = inputString.toCharArray();
 
-        for(int index = 0; index < arrayOfUrinals.length; index++){
+        for(int index = 0; index < arrayOfUrinals.length; index++){ // Greedy approach to check the free urinals
             if(arrayOfUrinals[index] == '0'){
                 if(index == 0){
                     if(arrayOfUrinals.length == 1 || arrayOfUrinals[index + 1] == '0'){
@@ -94,7 +99,7 @@ public class Urinals {
         return total;
     }
 
-    public static List<String> getInputFromFile(String filename){
+    public static List<String> getInputFromFile(String filename){ // Takes the input from the file
         List<String> listOfUrinalStrings = new ArrayList<>();
         try{
             BufferedReader bufferedReader = new BufferedReader(new FileReader(filename));
@@ -116,7 +121,7 @@ public class Urinals {
         return  listOfUrinalStrings;
     }
 
-    public static String getRecentFileName(){
+    public static String getRecentFileName(){ // Gets the file name order for rule.txt
         int counter = 1;
         File file = new File(defaultResultFileName + ".txt");
         String newFileName = defaultResultFileName;
@@ -128,7 +133,7 @@ public class Urinals {
         return newFileName + ".txt";
     }
 
-    public static void writeToFile(List<Integer> listOfLines){
+    public static void writeToFile(List<Integer> listOfLines){ // Writes the content to the file
         try {
             FileWriter writer = new FileWriter(defaultResultFileName);
             for(Integer line: listOfLines) {
