@@ -1,7 +1,10 @@
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 
 public class Urinals {
@@ -69,13 +72,23 @@ public class Urinals {
         return total;
     }
 
-    public static ArrayList<String> getInputFromFile(String filename){
-        ArrayList<String> listOfUrinalStrings = new ArrayList<>();
-        BufferedReader bufferedReader = new BufferedReader(new FileReader(filename));
-        String line = bufferedReader.readLine();
-        while (line != null || line.equals("-1")) {
-            listOfUrinalStrings.add(line);
-            line = bufferedReader.readLine();
+    public static List<String> getInputFromFile(String filename){
+        List<String> listOfUrinalStrings = new ArrayList<>();
+        try{
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(filename));
+            String line = bufferedReader.readLine();
+            while (line != null) {
+                if(line.equals("-1")){
+                    break;
+                }
+                listOfUrinalStrings.add(line);
+                line = bufferedReader.readLine();
+            }
+        } catch (FileNotFoundException fileNotFoundException){
+            System.out.println("File does not exist");
+        } catch (IOException ioException) {
+            System.out.println("I/O Exception occurred");
+            throw new RuntimeException(ioException);
         }
         return  listOfUrinalStrings;
     }
@@ -94,7 +107,7 @@ public class Urinals {
                         System.out.println("The total free urinals are : " + totalUrinals);
                     }
                 case 2:
-                    ArrayList<String> input = getInputFromFile(filename);
+                    List<String> input = getInputFromFile(filename);
                 case 3:
                     System.exit(0);
                     break;

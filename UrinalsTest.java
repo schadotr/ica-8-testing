@@ -3,8 +3,9 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 class UrinalsTest {
     InputStream inputStream;
@@ -64,12 +65,29 @@ class UrinalsTest {
     }
 
     @Test
-    void tesrCountOneUrinal() {
+    void testCountOneUrinal() {
         Assertions.assertEquals(1, Urinals.countUrinals("0"));
     }
 
     @Test
     void testFileNotFound() {
-        Assertions.assertEquals(null, Urinals.getInputFromFile("0.txt"));
+        Assertions.assertLinesMatch(new ArrayList<>(), Urinals.getInputFromFile("urinalss.dat"));
+    }
+
+    @Test
+    void checkFileContent(){
+        List<String> testString = new ArrayList<>();
+        try{
+            BufferedReader bufferedReader = new BufferedReader(new FileReader("testUrinals.dat"));
+            String line = bufferedReader.readLine();
+            while (line != null) {
+                if(line.equals("-1")) break;
+                testString.add(line);
+                line = bufferedReader.readLine();
+            }
+        } catch (IOException ioException) {
+            System.out.println("I/O Exception occurred");
+        }
+        Assertions.assertLinesMatch(testString, Urinals.getInputFromFile("urinals.dat"));
     }
 }
